@@ -13,12 +13,11 @@ import lombok.Data;
 @Data
 @Entity
 public class Activity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer activityId;
-	
-	
+
 	private String activityName;
 	
 	private String description;
@@ -32,6 +31,7 @@ public class Activity {
 	private Integer thrillLevel;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity")
+
 	private List<Ticket> tickets;
-	
+
 }
