@@ -15,18 +15,14 @@ import lombok.Data;
 @Data
 @Entity
 public class Activity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer activityId;
-	
-	
+
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(
-	        name = "Ticket_Activity", 
-	        joinColumns = { @JoinColumn(name = "ticketId") }, 
-	        inverseJoinColumns = { @JoinColumn(name = "activityId") }
-	    )
+	@JoinTable(name = "Ticket_Activity", joinColumns = { @JoinColumn(name = "ticketId") }, inverseJoinColumns = {
+			@JoinColumn(name = "activityId") })
 	private List<Ticket> tickets;
-	
+
 }
