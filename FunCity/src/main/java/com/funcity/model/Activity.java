@@ -7,9 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -21,12 +19,19 @@ public class Activity {
 	private Integer activityId;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(
-	        name = "Ticket_Activity", 
-	        joinColumns = { @JoinColumn(name = "ticketId") }, 
-	        inverseJoinColumns = { @JoinColumn(name = "activityId") }
-	    )
+	private String activityName;
+	
+	private String description;
+	
+	private String imageUrl1;
+	
+	private String imageUrl2;
+	
+	private Double charges;
+	
+	private Integer thrillLevel;
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity")
 	private List<Ticket> tickets;
 	
 }
