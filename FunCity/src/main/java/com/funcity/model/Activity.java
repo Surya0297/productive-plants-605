@@ -1,10 +1,15 @@
 package com.funcity.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.Data;
 
 @Data
@@ -16,7 +21,12 @@ public class Activity {
 	private Integer activityId;
 	
 	
-	@ManyToOne
-	private Ticket ticket;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+	        name = "Ticket_Activity", 
+	        joinColumns = { @JoinColumn(name = "ticketId") }, 
+	        inverseJoinColumns = { @JoinColumn(name = "activityId") }
+	    )
+	private List<Ticket> tickets;
 	
 }
