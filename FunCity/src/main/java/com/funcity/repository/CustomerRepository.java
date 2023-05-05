@@ -17,4 +17,6 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 	
 	@Query("Select new com.funcity.dto.CustomerDTO(customerName,address,mobileNumber,username,email,dateOfBirth) from Customer Where customerId=?1")
 	public CustomerDTO findCustomerDetailById(Integer customerId);
+	
+	public Customer findByMobileNumber(String mobileNumber );
 }

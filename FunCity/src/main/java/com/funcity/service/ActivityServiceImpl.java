@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.funcity.dto.ActivityDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.model.Activity;
-import com.funcity.model.ActivityDTO;
 import com.funcity.model.UserSession;
 import com.funcity.repository.ActivityRepository;
 import com.funcity.repository.UserSessionRepository;
 
+@Service
 public class ActivityServiceImpl implements ActivityService {
 
 	@Autowired
@@ -35,9 +37,9 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public Activity updateActivity(String sid, Activity activity) throws ActivityException {
+	public Activity updateActivity(String sessionId, Activity activity) throws ActivityException {
 		
-		UserSession us = userSessionRepo.findBySessionId(sid);
+		UserSession us = userSessionRepo.findBySessionId(sessionId);
 		if(us==null) {
 		throw new ActivityException("Admin with session id Not found");	
 		}
@@ -56,8 +58,8 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public Activity deleteActivity(String sid, Integer activityId) throws ActivityException {
-		UserSession us = userSessionRepo.findBySessionId(sid);
+	public Activity deleteActivity(String sessionId, Integer activityId) throws ActivityException {
+		UserSession us = userSessionRepo.findBySessionId(sessionId);
 		if(us==null) {
 		throw new ActivityException("Admin with session id Not found");	
 		}
@@ -102,10 +104,6 @@ public class ActivityServiceImpl implements ActivityService {
 		return count;
 	}
 	
-	public Integer countActivityByCharges(Double charges) {
-		Integer count=activityRepo.countByCharges(charges);
-		return count;
-		
-	}
+	
 
 }

@@ -2,23 +2,24 @@ package com.funcity.service;
 
 import java.util.List;
 
+import com.funcity.dto.ActivityDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.exception.AdminException;
+import com.funcity.exception.CustomerException;
 import com.funcity.model.Activity;
-import com.funcity.model.ActivityDTO;
 import com.funcity.model.Admin;
 
 public interface AdminService {
 	
-	public Admin insertAdmin(Admin admin) throws AdminException;
+	public Admin insertAdmin(String sessionId,Admin admin) throws AdminException;
 	
-	public Admin getAdmin(Integer id) throws AdminException;
+	public Admin getAdmin(String sessionId,Integer id) throws AdminException;
 	
-	public Admin updateAdmin(Admin admin) throws AdminException;
+	public Admin updateAdmin(String sessionId,Admin admin) throws AdminException;
 	
-	public Admin deleteAdmin(Integer admin_id) throws AdminException;
+	public Admin deleteAdmin(String sessionId,Integer admin_id) throws AdminException;
 	
-	public List<Activity> getAllActivities(Integer customer_id) throws ActivityException;
+	public List<Activity> getAllActivities(String sessionId,Integer customer_id) throws ActivityException, CustomerException;
 	
 	public List<ActivityDTO> getAllActivities() throws ActivityException;
 	
