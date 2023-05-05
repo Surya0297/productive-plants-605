@@ -2,9 +2,9 @@ package com.funcity.service;
 
 import java.util.List;
 
+import com.funcity.dto.ActivityDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.model.Activity;
-import com.funcity.model.ActivityDTO;
 
 public interface ActivityService {
 	
@@ -18,5 +18,5 @@ public interface ActivityService {
 	
 	public List<ActivityDTO> getAllActivities();
 	
-	public Integer countActivityByCharges(Double charges);
+	public Integer getAllActivityCountByCharges(Double charges);
 }

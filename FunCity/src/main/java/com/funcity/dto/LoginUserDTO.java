@@ -1,4 +1,4 @@
-package com.funcity.model;
+package com.funcity.dto;
 
 import lombok.Data;
 

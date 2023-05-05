@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.funcity.dto.ActivityDTO;
 import com.funcity.model.Activity;
-import com.funcity.model.ActivityDTO;
 import com.funcity.service.ActivityService;
 
+@RestController
 public class ActivityController {
 	
 	@Autowired
@@ -65,7 +67,7 @@ public class ActivityController {
 	@GetMapping("/activities/count/{charges}")
 	public ResponseEntity<Integer> countActivityByChargesHandler(@PathVariable Double charges){
 		
-		Integer count = activityService.countActivityByCharges(charges);
+		Integer count = activityService.getAllActivityCountByCharges(charges);
 		
 		return new ResponseEntity<>(count,HttpStatus.OK);
 	}
