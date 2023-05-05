@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.funcity.dto.ActivityDTO;
 import com.funcity.model.Activity;
-import com.funcity.model.ActivityDTO;
 import com.funcity.service.ActivityService;
 
 public class ActivityController {

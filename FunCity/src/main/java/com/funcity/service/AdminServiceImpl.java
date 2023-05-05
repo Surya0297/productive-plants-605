@@ -2,10 +2,10 @@ package com.funcity.service;
 
 import java.util.List;
 
+import com.funcity.dto.ActivityDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.exception.AdminException;
 import com.funcity.model.Activity;
-import com.funcity.model.ActivityDTO;
 import com.funcity.model.Admin;
 
 public class AdminServiceImpl implements AdminService {

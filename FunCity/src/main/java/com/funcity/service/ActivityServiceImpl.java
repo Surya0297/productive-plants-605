@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.funcity.dto.ActivityDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.model.Activity;
-import com.funcity.model.ActivityDTO;
 import com.funcity.model.UserSession;
 import com.funcity.repository.ActivityRepository;
 import com.funcity.repository.UserSessionRepository;
