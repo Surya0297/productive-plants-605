@@ -10,5 +10,5 @@ import com.funcity.model.Ticket;
 public interface TicketRepository extends JpaRepository<Ticket, Integer>{
 		
 	public List<Ticket> findByCustomer(Customer customer);
-	
+	public List<Ticket> findByDateTime(Customer customer);
 }
