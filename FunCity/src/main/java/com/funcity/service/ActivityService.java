@@ -18,5 +18,5 @@ public interface ActivityService {
 	
 	public List<ActivityDTO> getAllActivities();
 	
-	public Integer countActivityByCharges(Double charges);
+	public Integer getAllActivityCountByCharges(Double charges);
 }
