@@ -19,4 +19,6 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 	public CustomerDTO findCustomerDetailById(Integer customerId);
 	
 	public Customer findByMobileNumber(String mobileNumber);
+	
+
 }
