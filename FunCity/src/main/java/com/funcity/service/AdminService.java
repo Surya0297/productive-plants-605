@@ -1,5 +1,6 @@
 package com.funcity.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.funcity.dto.ActivityDTO;
@@ -19,8 +20,11 @@ public interface AdminService {
 	
 	public Admin deleteAdmin(String sessionId,Integer admin_id) throws AdminException;
 	
-	public List<Activity> getAllActivities(String sessionId,Integer customer_id) throws ActivityException, CustomerException;
+	public List<Activity> getAllActivities(String sessionId,Integer customer_id) throws AdminException,ActivityException, CustomerException;
 	
 	public List<ActivityDTO> getAllActivities() throws ActivityException;
+
+	public List<ActivityDTO> getAllActivitiesBetweenDatesByCutomerId(String sessionId, Integer customer_id,LocalDate startDate,LocalDate endDate)
+			throws AdminException,ActivityException, CustomerException;
 	
 }

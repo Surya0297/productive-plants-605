@@ -51,7 +51,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
 		<dependency>
 		    <groupId>org.springdoc</groupId>
@@ -64,6 +63,7 @@
 		    <artifactId>byte-buddy</artifactId>
 		    <version>1.14.4</version>
 		</dependency>
+		
 		
 
 	</dependencies>
