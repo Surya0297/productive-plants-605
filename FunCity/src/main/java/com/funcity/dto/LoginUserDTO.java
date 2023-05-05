@@ -10,5 +10,6 @@ public class LoginUserDTO {
 	private String password;
 	
 	private String role;
+
 	
 }

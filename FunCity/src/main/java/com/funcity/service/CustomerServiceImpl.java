@@ -84,4 +84,20 @@ public class CustomerServiceImpl implements CustomerService {
 			return customerDTO;
 	}
 
+	@Override
+	public Customer updatePassword(Integer customerId,String oldpassword, String password) throws CustomerException {
+		Customer existingcustomer = customerRepo.findById(customerId)
+				.orElseThrow(() -> new CustomerException("No customer present with this customerId : " + customerId));
+
+		if(existingcustomer.getPassword().equals(oldpassword)) {
+		
+		existingcustomer.setPassword(password);
+		return customerRepo.save(existingcustomer);
+		
+		}else
+			throw new CustomerException("Please provide valid old password to change the password");
+
+		
+	}
+
 }

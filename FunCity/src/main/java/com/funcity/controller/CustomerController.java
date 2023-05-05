@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.funcity.dto.CustomerDTO;
@@ -64,6 +66,13 @@ public class CustomerController {
 		CustomerDTO customer = customerService.findCustomerById(customerId);
 
 		return new ResponseEntity<>(customer, HttpStatus.FOUND);
+	}
+	
+	@PatchMapping("/customers/{customerId}/{oldpassword}/{password}")
+	public ResponseEntity<Customer> changepasswordHandler(@PathVariable Integer customerId,@PathVariable String oldpassword,@PathVariable String password) throws CustomerException{
+		Customer customer=customerService.updatePassword(customerId, oldpassword, password);
+		
+		return new ResponseEntity<>(customer, HttpStatus.ACCEPTED);
 	}
 
 }
