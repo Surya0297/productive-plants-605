@@ -58,6 +58,7 @@ public class LoginUserServiceImpl implements LoginUserService {
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
 			userSessionRepository.save(us);
+			System.out.println(sessionId);
 			return sessionId;
 		} else {
 			Admin a = adminRepository.findByphonenumber(mobileNumber);
