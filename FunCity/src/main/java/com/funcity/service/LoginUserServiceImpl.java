@@ -35,6 +35,7 @@ public class LoginUserServiceImpl implements LoginUserService{
 
 		String role = loginUser.getRole();
 		String mobileNumber = loginUser.getMobileNumber();
+		String sessionId=null;
 		
 		if(role.equalsIgnoreCase("customer")) {
 			Customer c = customerRepository.findByMobileNumber(mobileNumber);
@@ -50,7 +51,7 @@ public class LoginUserServiceImpl implements LoginUserService{
 				throw new CustomerException("Already logged in");
 			}
 			
-			String sessionId = RandomString.make(6);
+			 sessionId = RandomString.make(6);
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);
@@ -58,7 +59,8 @@ public class LoginUserServiceImpl implements LoginUserService{
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
 			userSessionRepository.save(us);
-			return sessionId;
+			System.out.println(sessionId);
+			
 		}else {
 
 		
@@ -77,7 +79,7 @@ public class LoginUserServiceImpl implements LoginUserService{
 				throw new CustomerException("Already logged in");
 			}
 			
-			String sessionId = RandomString.make(5);
+			 sessionId = RandomString.make(5);
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);
@@ -85,9 +87,9 @@ public class LoginUserServiceImpl implements LoginUserService{
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
 			userSessionRepository.save(us);
-			return sessionId;
+			
 		}
-		
+		return sessionId;
 	}
 
 	@Override
