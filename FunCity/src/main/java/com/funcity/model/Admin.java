@@ -26,14 +26,10 @@ public class Admin{
 	
 	@Column(unique = true)
 	@NotNull
-	private String phonenumber;
+	private String mobileNumber;
 	
 	@NotNull
 	private String password;
 	
 
-	
-
-	
-	
 }
