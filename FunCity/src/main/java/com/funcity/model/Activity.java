@@ -35,11 +35,4 @@ public class Activity {
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity")
 	private List<Ticket> tickets;
-	
-	
-
-
-	
-	
-
 }
