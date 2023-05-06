@@ -20,7 +20,7 @@ public class Ticket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer ticketId;
 	
-	private LocalDateTime dateTime;
+	private LocalDateTime dateTime=LocalDateTime.now();
 	
 	private Integer noOfPersons;
 	
@@ -33,22 +33,7 @@ public class Ticket {
 	@ManyToOne
 	private Activity activity;
 
-	
-	public Ticket(){
-		super();
-		
-	}
 
-	public Ticket(Integer ticketId, LocalDateTime dateTime, Integer noOfPersons, Double total, Customer customer,
-			Activity activity) {
-		super();
-		this.ticketId = ticketId;
-		this.dateTime = dateTime;
-		this.noOfPersons = noOfPersons;
-		this.total = total;
-		this.customer = customer;
-		this.activity = activity;
-	}
 
 	
 }
