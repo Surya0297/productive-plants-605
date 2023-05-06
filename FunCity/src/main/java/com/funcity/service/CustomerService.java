@@ -18,6 +18,6 @@ public interface CustomerService {
 	
 	public CustomerDTO findCustomerById(Integer customerId) throws CustomerException; 
 	
-	public Customer updatePassword(Integer customerId,String oldpassword,String password) throws CustomerException;
+	public Customer changePassword(Integer customerId,String oldpassword,String password) throws CustomerException;
 	
 }

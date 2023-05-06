@@ -59,5 +59,4 @@ public class Customer {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
 	private List<Ticket> tickets = new ArrayList<>();
 
-
 }

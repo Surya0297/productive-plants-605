@@ -33,7 +33,7 @@ public class Ticket {
 	@ManyToOne
 	private Activity activity;
 
-	
-	
+
+
 	
 }
