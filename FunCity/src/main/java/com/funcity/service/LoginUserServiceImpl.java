@@ -54,13 +54,17 @@ public class LoginUserServiceImpl implements LoginUserService{
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);
-			us.setPhoneNumber(mobileNumber);
+			us.setMobileNumber(mobileNumber);
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
 			userSessionRepository.save(us);
 			return sessionId;
 		}else {
-			Admin a = adminRepository.findByphonenumber(mobileNumber);
+
+		
+	
+			
+			Admin a = adminRepository.findByMobileNumber(mobileNumber);
 			if(a==null) {
 				throw new AdminException("admin not found with mobileNumber " + mobileNumber);
 			}
@@ -77,7 +81,7 @@ public class LoginUserServiceImpl implements LoginUserService{
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);
-			us.setPhoneNumber(mobileNumber);
+			us.setMobileNumber(mobileNumber);
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
 			userSessionRepository.save(us);

@@ -21,6 +21,7 @@ public class LoginController {
  
 	@PostMapping("/login")
 	public ResponseEntity<String> loginUserAccountHandler(@RequestBody LoginUserDTO loginUser) throws CustomerException {
+		
 		String userSessionId=loginUserService.logInUserAccount(loginUser);
 		
 		return new ResponseEntity<>(userSessionId,HttpStatus.CONTINUE);
