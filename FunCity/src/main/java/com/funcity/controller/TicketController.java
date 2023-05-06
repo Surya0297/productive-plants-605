@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.funcity.dto.TicketDTO;
+import com.funcity.exception.CustomerException;
 import com.funcity.exception.TicketException;
+import com.funcity.model.Ticket;
 import com.funcity.service.TicketService;
 
 @RestController
@@ -22,13 +26,13 @@ public class TicketController {
 	@Autowired
 	private TicketService tservice;
 
-//	@PostMapping("/tickets")
-//	public ResponseEntity<Ticket> insertTicketHandler(@RequestBody Ticket ticket) throws TicketException, CustomerException{
-//		Ticket ticket1=tservice.insertTicket( ticket);
-//		
-//		return new ResponseEntity<>(ticket1,HttpStatus.CREATED);
-//		
-//	}
+	@PostMapping("/tickets/{sessionId}")
+	public ResponseEntity<Ticket> insertTicketHandler(@PathVariable String sessionId,@RequestBody TicketDTO ticketDTO) throws TicketException, CustomerException{
+		Ticket ticket1=tservice.insertTicket(sessionId,ticketDTO);
+		
+		return new ResponseEntity<>(ticket1,HttpStatus.CREATED);
+		
+	}
 	
 	@DeleteMapping("/tickets/{ticketId}")
 	public ResponseEntity<String> deleteTicketHandler(@RequestParam String sessionId,@PathVariable Integer ticketId) throws TicketException{
@@ -57,6 +61,15 @@ public class TicketController {
 		TicketDTO tdto=tservice.getTicketsDetailsById(sessionId,TicketId);
 		
 		return new ResponseEntity<>(tdto,HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/calculateBill/{sessionId}/{customerId}")
+	public ResponseEntity<Double> getTotalBillIdHandler(@PathVariable String sessionId,@PathVariable Integer customerId)throws TicketException, CustomerException{
+		
+		Double total=tservice.getTotalBill(sessionId, customerId);
+		
+		return new ResponseEntity<>(total,HttpStatus.OK);
 		
 	}
 	

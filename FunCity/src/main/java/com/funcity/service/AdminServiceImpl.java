@@ -1,6 +1,7 @@
 package com.funcity.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -114,7 +115,7 @@ public class AdminServiceImpl implements AdminService {
 		
 			Customer c = opt.get();
 			List<Ticket> tickets = ticketRepo.findByCustomer(c);
-			Set<Activity> activities=new HashSet<>();
+			List<Activity> activities=new ArrayList();
 			if(tickets.size() == 0) {
 				throw new ActivityException("customer has not taken any activity yet");
 			}else {
@@ -123,9 +124,9 @@ public class AdminServiceImpl implements AdminService {
 					activities.add(t.getActivity());
 				}
 			}
-			List<Activity> list = new ArrayList<>(activities);
 			
-			return list;
+			
+			return activities;
 	}
 
 	@Override
@@ -140,7 +141,8 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public List<Activity> getAllActivitiesBetweenDatesByCutomerId(String sessionId, Integer customer_id,
-			LocalDate startDate, LocalDate endDate) throws AdminException, ActivityException, CustomerException {
+			LocalDateTime lowerBoundDate, LocalDateTime upperBoundDate)
+			throws AdminException, ActivityException, CustomerException {
 		UserSession us = userSessionRepo.findBySessionId(sessionId);
 		if(us==null) 
 		throw new AdminException("Admin with session id not found");	
@@ -151,7 +153,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 			Customer c = opt.get();
-		List<Ticket> tickets = ticketRepo.findByCustomerAndDateTimeBetween(c,startDate,endDate);
+		List<Ticket> tickets = ticketRepo.findByCustomerIdAndDateRange(customer_id, lowerBoundDate, upperBoundDate);
 		Set<Activity> activities=new HashSet<>();
 		if(tickets.size() == 0) {
 			throw new ActivityException("customer has not taken any activity yet");
@@ -165,8 +167,9 @@ public class AdminServiceImpl implements AdminService {
 		
 		return list;
 	
-		
 	}
+
+	
 	
 }
 
