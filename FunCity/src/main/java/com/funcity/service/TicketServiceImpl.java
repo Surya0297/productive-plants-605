@@ -10,21 +10,27 @@ import com.funcity.dto.TicketDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.exception.CustomerException;
 import com.funcity.exception.TicketException;
+import com.funcity.model.Activity;
 import com.funcity.model.Customer;
 import com.funcity.model.Ticket;
 import com.funcity.model.UserSession;
+import com.funcity.repository.ActivityRepository;
 import com.funcity.repository.CustomerRepository;
 import com.funcity.repository.TicketRepository;
 import com.funcity.repository.UserSessionRepository;
 
 @Service
 public class TicketServiceImpl implements TicketService {
-
+	
+	@Autowired
+	private ActivityRepository arepo;
+	
 	@Autowired
 	private CustomerRepository crepo;
 
 	@Autowired
 	private TicketRepository trepo;
+	
 	@Autowired
 	private UserSessionRepository userSessionRepo;
 
@@ -82,6 +88,51 @@ public class TicketServiceImpl implements TicketService {
 		}
 		return tlist;
 
+	}
+
+	@Override
+	public Ticket insertTicket(String sessionId,TicketDTO ticketDTO) throws TicketException, CustomerException {
+		UserSession us = userSessionRepo.findBySessionId(sessionId);
+		if (us == null) {
+			throw new TicketException("Admin with session id not found");
+		}
+		Customer customer = crepo.findById(ticketDTO.getCutomerId())
+                .orElseThrow(() -> new CustomerException("Customer not found with ID " + ticketDTO.getCutomerId()));
+
+        Activity activity = arepo.findById(ticketDTO.getActivityId())
+                .orElseThrow(() -> new ActivityException("Activity not found with ID " + ticketDTO.getActivityId()));
+
+        Ticket ticket1 = new Ticket();
+        ticket1.setDateTime(ticketDTO.getDateTime());
+        ticket1.setNoOfPersons(ticketDTO.getNoOfPersons());
+   
+        ticket1.setCustomer(customer);
+        ticket1.setActivity(activity);
+        
+        ticket1.setTotal(activity.getCharges()*ticketDTO.getNoOfPersons());
+        
+        Ticket savedTicket = trepo.save(ticket1);
+        return savedTicket;
+	}
+
+	@Override
+	public Double getTotalBill(String sessionId, Integer customerId) throws CustomerException {
+		UserSession us = userSessionRepo.findBySessionId(sessionId);
+		if (us == null) {
+			throw new TicketException("Admin with session id not found");
+		}
+		Customer customer = crepo.findById(customerId).orElseThrow(()->new CustomerException("No Customer With Customer Id: "+customerId));
+		
+		List<Ticket> tickets=trepo.findByCustomer(customer);
+		if(tickets.isEmpty())throw new ActivityException("No Activity Selected So far");
+		
+		Double total=0.0;
+		
+		for(Ticket t:tickets) {
+			total+=t.getTotal();
+		}
+		
+		return total;
 	}
 
 }

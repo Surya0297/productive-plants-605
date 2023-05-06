@@ -1,8 +1,11 @@
 package com.funcity.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +24,9 @@ import com.funcity.exception.CustomerException;
 import com.funcity.model.Activity;
 import com.funcity.model.Admin;
 import com.funcity.service.AdminService;
+import com.funcity.service.TicketService;
+
+import jakarta.validation.Valid;
 
 
 
@@ -31,8 +37,11 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
+	@Autowired
+	private TicketService ticketService;
+	
 	@PostMapping("/admins")
-	public ResponseEntity<Admin> insertAdminHandler(@RequestBody Admin admin){
+	public ResponseEntity<Admin> insertAdminHandler(@Valid @RequestBody Admin admin){
 		Admin a = adminService.insertAdmin(admin);
 		return new ResponseEntity<Admin>(a, HttpStatus.OK);
 		
@@ -45,7 +54,7 @@ public class AdminController {
 	}
 	
 	@PutMapping("/admins/{sessionId}/{adminId}")
-	public ResponseEntity<Admin> updateAdminHandler(@PathVariable String sessionId,@PathVariable Integer adminId,@RequestBody AdminDTO adminDTO){
+	public ResponseEntity<Admin> updateAdminHandler(@PathVariable String sessionId,@PathVariable Integer adminId,@Valid @RequestBody AdminDTO adminDTO){
 		Admin a = adminService.updateAdmin(sessionId,adminId,adminDTO);
 		return new ResponseEntity<Admin>(a, HttpStatus.OK);
 	}
@@ -70,6 +79,21 @@ public class AdminController {
 		List<ActivityDTO> activities = adminService.getAllActivities();
 		
 		return new ResponseEntity<List<ActivityDTO>>(activities, HttpStatus.OK);
+	}
+	
+	@GetMapping("/activities/{sessionId}/{customerId}/{startDate}/{endDate}")
+	public ResponseEntity<List<Activity>> getActivitiesForCustomerInDateRange(
+
+			@PathVariable String sessionId,
+			@PathVariable Integer customerId,
+	        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+	        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) throws AdminException, ActivityException, CustomerException {
+
+	    LocalDateTime lowerBoundDate = startDate.atStartOfDay();
+	    LocalDateTime upperBoundDate = endDate.plusDays(1).atStartOfDay().minusSeconds(1);
+
+	    List<Activity> activities = adminService.getAllActivitiesBetweenDatesByCutomerId(sessionId,customerId, lowerBoundDate, upperBoundDate);
+	    return ResponseEntity.ok(activities);
 	}
 	
 	

@@ -31,11 +31,6 @@ public class ActivityServiceImpl implements ActivityService {
 		throw new ActivityException("Admin with session id not found");	
 		}
 		
-		List<Ticket> ticketList=activity.getTickets();
-		for(Ticket ticket:ticketList) {
-			ticket.setActivity(activity);
-		}
-		
 		Activity savedActivity = activityRepo.save(activity);
 		
 		return savedActivity;

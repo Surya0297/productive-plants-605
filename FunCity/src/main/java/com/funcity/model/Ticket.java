@@ -24,16 +24,15 @@ public class Ticket {
 	
 	private Integer noOfPersons;
 	
-	private Double total;
+	private Double total=0.0;
 
 	@JsonIgnore
 	@ManyToOne
 	private Customer customer;
-
+	
+	
 	@ManyToOne
 	private Activity activity;
-
-
-
+	
 	
 }

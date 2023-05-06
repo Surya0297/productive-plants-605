@@ -1,10 +1,12 @@
 package com.funcity.repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.funcity.dto.CustomerDTO;
 import com.funcity.dto.TicketDTO;
@@ -22,7 +24,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer>{
 	
 	@Query("Select new com.funcity.dto.TicketDTO(ticketId,dateTime,noOfPersons,total) from Ticket where ticketId=?1")
 	public TicketDTO findTicketDetailsById(Integer ticketId);
-
-	public List<Ticket> findByCustomerAndDateTimeBetween(Customer customer,LocalDate startDate,LocalDate endDate);
+	
+	 @Query("SELECT t FROM Ticket t WHERE t.customer.customerId = :customerId AND t.dateTime >= :lowerBoundDate AND t.dateTime <= :upperBoundDate")
+	List<Ticket> findByCustomerIdAndDateRange(@Param("customerId") long customerId, @Param("lowerBoundDate") LocalDateTime lowerBoundDate, @Param("upperBoundDate") LocalDateTime upperBoundDate);
 
 }
