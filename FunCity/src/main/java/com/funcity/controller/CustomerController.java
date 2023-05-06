@@ -70,7 +70,7 @@ public class CustomerController {
 	
 	@PatchMapping("/customers/{customerId}/{oldpassword}/{password}")
 	public ResponseEntity<Customer> changepasswordHandler(@PathVariable Integer customerId,@PathVariable String oldpassword,@PathVariable String password) throws CustomerException{
-		Customer customer=customerService.updatePassword(customerId, oldpassword, password);
+		Customer customer=customerService.changePassword(customerId, oldpassword, password);
 		
 		return new ResponseEntity<>(customer, HttpStatus.ACCEPTED);
 	}

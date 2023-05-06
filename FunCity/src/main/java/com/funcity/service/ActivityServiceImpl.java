@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.funcity.dto.ActivityDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.model.Activity;
+import com.funcity.model.Ticket;
 import com.funcity.model.UserSession;
 import com.funcity.repository.ActivityRepository;
 import com.funcity.repository.UserSessionRepository;
@@ -28,6 +29,11 @@ public class ActivityServiceImpl implements ActivityService {
 		UserSession us = userSessionRepo.findBySessionId(sessionId);
 		if(us==null) {
 		throw new ActivityException("Admin with session id not found");	
+		}
+		
+		List<Ticket> ticketList=activity.getTickets();
+		for(Ticket ticket:ticketList) {
+			ticket.setActivity(activity);
 		}
 		
 		Activity savedActivity = activityRepo.save(activity);
