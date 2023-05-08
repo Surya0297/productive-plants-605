@@ -51,7 +51,7 @@ public class LoginUserServiceImpl implements LoginUserService{
 				throw new CustomerException("Already logged in");
 			}
 			
-			String sessionId = RandomString.make(6);
+			String sessionId = String.valueOf(c.getCustomerId());
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);

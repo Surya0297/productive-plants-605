@@ -78,4 +78,13 @@ public class TicketController {
 		
 	}
 	
+	@GetMapping("/ticketsofcustomer/{sessionId}/{customerId}")
+	public ResponseEntity<List<TicketDTO>> getTicketOfCustomerHandler(@PathVariable String sessionId,@PathVariable Integer customerId)throws TicketException, CustomerException{
+		
+		List<TicketDTO> list=tservice.getTicketOfCustomer(sessionId, customerId);
+		
+		return new ResponseEntity<>(list,HttpStatus.OK);
+		
+	}
+	
 }

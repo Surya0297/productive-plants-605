@@ -20,4 +20,6 @@ public interface TicketService {
 	public TicketDTO getTicketsDetailsById(String sessionId,Integer TicketId) throws TicketException;
 	
 	public Double getTotalBill(String sessionId,Integer customerId)throws CustomerException;
+	
+	public List<TicketDTO> getTicketOfCustomer(String sessionId,Integer customerId) throws TicketException;
 }

@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Data
@@ -20,7 +22,8 @@ public class Ticket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer ticketId;
 	
-	private LocalDateTime dateTime=LocalDateTime.now();
+	@Temporal(TemporalType.TIMESTAMP) 
+	private LocalDateTime dateTime;
 	
 	private Integer noOfPersons;
 	

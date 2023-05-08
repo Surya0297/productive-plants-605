@@ -27,5 +27,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer>{
 	
 	 @Query("SELECT t FROM Ticket t WHERE t.customer.customerId = :customerId AND t.dateTime >= :lowerBoundDate AND t.dateTime <= :upperBoundDate")
 	List<Ticket> findByCustomerIdAndDateRange(@Param("customerId") long customerId, @Param("lowerBoundDate") LocalDateTime lowerBoundDate, @Param("upperBoundDate") LocalDateTime upperBoundDate);
-
+	
+	 @Query("Select new com.funcity.dto.TicketDTO(ticketId,dateTime,noOfPersons,total,customer.customerId,activity.activityId) from Ticket where customer.customerId=?1")
+	 public List<TicketDTO> getTicketByCustomerId(Integer customerId);
 }
