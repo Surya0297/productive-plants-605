@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,6 +23,7 @@ import com.funcity.service.CustomerService;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin("*")
 public class CustomerController {
 
 	@Autowired
@@ -40,8 +42,8 @@ public class CustomerController {
 	public ResponseEntity<List<CustomerDTO>> findAllCustomerHandler() throws CustomerException {
 
 		List<CustomerDTO> customerList = customerService.findAllCustomers();
-
-		return new ResponseEntity<>(customerList, HttpStatus.FOUND);
+		System.out.println(customerList);
+		return new ResponseEntity<>(customerList, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/customers/{customerId}")
@@ -65,7 +67,7 @@ public class CustomerController {
 			throws CustomerException {
 		CustomerDTO customer = customerService.findCustomerById(customerId);
 
-		return new ResponseEntity<>(customer, HttpStatus.FOUND);
+		return new ResponseEntity<>(customer, HttpStatus.OK);
 	}
 	
 	@PatchMapping("/customers/{customerId}/{oldpassword}/{password}")

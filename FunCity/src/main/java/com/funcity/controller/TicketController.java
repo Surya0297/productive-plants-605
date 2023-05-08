@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,6 +22,7 @@ import com.funcity.model.Ticket;
 import com.funcity.service.TicketService;
 
 @RestController
+@CrossOrigin("*")
 public class TicketController {
 	
 	@Autowired
@@ -43,6 +45,7 @@ public class TicketController {
 	
 	@GetMapping("/tickets")
 	public ResponseEntity<List<TicketDTO>> getAllTicketHandler(@RequestParam String sessionId){
+		
 		List<TicketDTO> tlist=tservice.getAllTickets( sessionId);
 		
 		return new ResponseEntity<>(tlist,HttpStatus.OK);
@@ -58,8 +61,10 @@ public class TicketController {
 	
 	@GetMapping("/gettickets/{TicketId}")
 	public ResponseEntity<TicketDTO> getTicketByIdHandler(@RequestParam String sessionId,@PathVariable Integer TicketId)throws TicketException{
-		TicketDTO tdto=tservice.getTicketsDetailsById(sessionId,TicketId);
 		
+		
+		TicketDTO tdto=tservice.getTicketsDetailsById(sessionId,TicketId);
+		System.out.println(tdto);
 		return new ResponseEntity<>(tdto,HttpStatus.OK);
 		
 	}
