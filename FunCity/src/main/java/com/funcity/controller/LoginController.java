@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.funcity.dto.LoginUserDTO;
 import com.funcity.exception.CustomerException;
+import com.funcity.model.UserSession;
 import com.funcity.service.LoginUserService;
 
 @RestController
@@ -22,11 +23,11 @@ public class LoginController {
 	private LoginUserService loginUserService;
  
 	@PostMapping("/login")
-	public ResponseEntity<String> loginUserAccountHandler(@RequestBody LoginUserDTO loginUser) throws CustomerException {
+	public ResponseEntity<UserSession> loginUserAccountHandler(@RequestBody LoginUserDTO loginUser) throws CustomerException {
 		
-		String userSessionId=loginUserService.logInUserAccount(loginUser);
+		UserSession userSessionId=loginUserService.logInUserAccount(loginUser);
 		
-		return new ResponseEntity<>(userSessionId,HttpStatus.CONTINUE);
+		return new ResponseEntity<>(userSessionId,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/logout")

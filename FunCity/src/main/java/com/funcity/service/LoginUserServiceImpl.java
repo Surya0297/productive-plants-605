@@ -31,11 +31,11 @@ public class LoginUserServiceImpl implements LoginUserService{
 	private UserSessionRepository userSessionRepository;
 	
 	@Override
-	public String logInUserAccount(LoginUserDTO loginUser) throws CustomerException {
+	public UserSession logInUserAccount(LoginUserDTO loginUser) throws CustomerException {
 
 		String role = loginUser.getRole();
 		String mobileNumber = loginUser.getMobileNumber();
-		String sessionId=null;
+		
 		
 		if(role.equalsIgnoreCase("customer")) {
 			Customer c = customerRepository.findByMobileNumber(mobileNumber);
@@ -51,21 +51,17 @@ public class LoginUserServiceImpl implements LoginUserService{
 				throw new CustomerException("Already logged in");
 			}
 			
-			 sessionId = RandomString.make(6);
+			String sessionId = RandomString.make(6);
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);
 			us.setMobileNumber(mobileNumber);
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
-			userSessionRepository.save(us);
-			System.out.println(sessionId);
+			 return userSessionRepository.save(us);
+			
 			
 		}else {
-
-		
-	
-			
 			Admin a = adminRepository.findByMobileNumber(mobileNumber);
 			if(a==null) {
 				throw new AdminException("admin not found with mobileNumber " + mobileNumber);
@@ -79,17 +75,17 @@ public class LoginUserServiceImpl implements LoginUserService{
 				throw new CustomerException("Already logged in");
 			}
 			
-			 sessionId = RandomString.make(5);
+			String sessionId = RandomString.make(5);
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);
 			us.setMobileNumber(mobileNumber);
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
-			userSessionRepository.save(us);
+			return  userSessionRepository.save(us);
 			
 		}
-		return sessionId;
+	
 	}
 
 	@Override
