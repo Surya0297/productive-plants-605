@@ -3,6 +3,40 @@
 //     window.open("/index.html", "_self");
 // })
 
+let adminlogout_btn = document.querySelector("#logoutadmin");
+
+adminlogout_btn.addEventListener("click", (event) => {
+    logoutAdmin();
+})
+
+async function logoutAdmin() {
+    try {
+        let sessionId = localStorage.getItem("adminSessionId");
+        let logout_request = await fetch(`http://localhost:8080/logout?sessionId=${sessionId}`, {
+
+            method: "DELETE",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify()
+
+        });
+
+        if (logout_request.ok) {
+            alert("Admin Logged out successfully");
+            localStorage.removeItem("adminSessionId");
+            window.location.href = "index.html";
+        } else {
+            alert("Already logged out");
+        }
+    } catch (err) {
+        alert("Bad request");
+    }
+
+
+}
+
 let getActivitiesOfCustomer = document.getElementById("getActivitiesOfCustomer");
 let allActivities;
 
@@ -21,10 +55,10 @@ getActivitiesOfCustomer.addEventListener("click", async() => {
 
     let btn = document.getElementById("search");
     btn.addEventListener("click", async() => {
-        localStorage.setItem('sessionId', "duFg2");
+
         let id = document.getElementById("id");
         id = id.value;
-        const sessionId = localStorage.getItem('sessionId');
+        let sessionId = localStorage.getItem('adminSessionId');
 
         let res = await fetch(`http://localhost:8080/customeractivities/${sessionId}/${id}`, {
             method: "GET"
@@ -57,14 +91,14 @@ activitiesByDate.addEventListener("click", async() => {
 
     let btn = document.getElementById("search");
     btn.addEventListener("click", async() => {
-        localStorage.setItem('sessionId', "duFg2");
+
         let id = document.getElementById("id");
         id = id.value;
         let sdate = document.getElementById("sdate");
         sdate = sdate.value;
         let edate = document.getElementById("edate");
         edate = edate.value;
-        const sessionId = localStorage.getItem('sessionId');
+        let sessionId = localStorage.getItem('adminSessionId');
 
         let res = await fetch(`http://localhost:8080/activities/${sessionId}/${id}/${sdate}/${edate}`, {
             method: "GET"
@@ -161,10 +195,10 @@ deleteAdmin.addEventListener("click", async() => {
 
     let btn = document.getElementById("search");
     btn.addEventListener("click", () => {
-        localStorage.setItem('sessionId', "duFg2");
+
         let id = document.getElementById("id");
         id = id.value;
-        const sessionId = localStorage.getItem('sessionId');
+        let sessionId = localStorage.getItem('adminSessionId');
         getAdmin(sessionId, id);
         deleteAdminData(sessionId, id)
     })
@@ -209,10 +243,10 @@ updateAdmin.addEventListener("click", () => {
     `
     let btn = document.getElementById("search");
     btn.addEventListener("click", async() => {
-        localStorage.setItem('sessionId', "duFg2");
+
         let id = document.getElementById("id");
         id = id.value;
-        const sessionId = localStorage.getItem('sessionId');
+        let sessionId = localStorage.getItem('adminSessionId');
 
         try {
             let res = await fetch(`http://localhost:8080/admins/${sessionId}/${id}`)
@@ -274,7 +308,7 @@ function updateAdminData(admin) {
         if (x == "admin") {
             let id = document.getElementById("id");
             id = id.value;
-            const sessionId = localStorage.getItem('sessionId');
+            let sessionId = localStorage.getItem('adminSessionId');
             let res = await fetch(`http://localhost:8080/admins/${sessionId}/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -373,10 +407,10 @@ getAdminById.addEventListener("click", () => {
 
     let btn = document.getElementById("search");
     btn.addEventListener("click", () => {
-        localStorage.setItem('sessionId', "duFg2");
+
         let id = document.getElementById("id");
         id = id.value;
-        const sessionId = localStorage.getItem('sessionId');
+        let sessionId = localStorage.getItem('adminSessionId');
         getAdmin(sessionId, id);
     })
 
@@ -564,7 +598,7 @@ async function getCustomer(id) {
         out.push(data);
         if (res.ok) {
             alert("FOUND")
-                // console.log(data);
+            console.log(data);
             renderConstumer(out);
         } else {
             alert("Customer DOES NOT EXIST")
@@ -577,8 +611,8 @@ async function getCustomer(id) {
 
 let viewAllTickets = document.getElementById("viewAllTickets");
 viewAllTickets.addEventListener("click", async() => {
-    localStorage.setItem('sessionId', "duFg2");
-    const sessionId = localStorage.getItem('sessionId');
+
+    let sessionId = localStorage.getItem('adminSessionId');
     try {
         let res = await fetch(`http://localhost:8080/tickets?sessionId=${sessionId}`)
         let data = await res.json();
@@ -651,10 +685,10 @@ viewTicketById.addEventListener("click", () => {
 
     let btn = document.getElementById("search");
     btn.addEventListener("click", async() => {
-        localStorage.setItem('sessionId', "duFg2");
+
         let id = document.getElementById("id");
         id = id.value;
-        const sessionId = localStorage.getItem('sessionId');
+        let sessionId = localStorage.getItem('adminSessionId');
         try {
             let res = await fetch(`http://localhost:8080/gettickets/${id}?sessionId=${sessionId}`)
             let data = await res.json();

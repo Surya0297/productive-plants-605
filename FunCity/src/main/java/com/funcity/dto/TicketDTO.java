@@ -9,7 +9,7 @@ public class TicketDTO {
 
 	 private Integer ticketId;
 	 
-	 private LocalDateTime dateTime=LocalDateTime.now();
+	 private LocalDateTime dateTime;
 	 
 	 private Integer noOfPersons;
 		

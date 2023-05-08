@@ -135,4 +135,16 @@ public class TicketServiceImpl implements TicketService {
 		return total;
 	}
 
+	@Override
+	public List<TicketDTO> getTicketOfCustomer(String sessionId, Integer customerId) throws TicketException {
+		// TODO Auto-generated method stub
+		UserSession us = userSessionRepo.findBySessionId(sessionId);
+		if (us == null) {
+			throw new TicketException("Customer with session id not found");
+		}
+		List<TicketDTO> list=trepo.getTicketByCustomerId(customerId);
+		if(list.isEmpty())throw new TicketException("No Ticket Found");
+		return list;
+	}
+
 }
