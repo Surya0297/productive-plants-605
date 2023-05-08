@@ -66,7 +66,7 @@ public class CustomerController {
 			throws CustomerException {
 		CustomerDTO customer = customerService.findCustomerById(customerId);
 
-		return new ResponseEntity<>(customer, HttpStatus.FOUND);
+		return new ResponseEntity<>(customer, HttpStatus.OK);
 	}
 
 	@PatchMapping("/customers/{customerId}/{oldpassword}/{password}")

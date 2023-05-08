@@ -96,8 +96,8 @@ public class TicketServiceImpl implements TicketService {
 		if (us == null) {
 			throw new TicketException("Admin with session id not found");
 		}
-		Customer customer = crepo.findById(ticketDTO.getCutomerId())
-                .orElseThrow(() -> new CustomerException("Customer not found with ID " + ticketDTO.getCutomerId()));
+		Customer customer = crepo.findById(ticketDTO.getCustomerId())
+                .orElseThrow(() -> new CustomerException("Customer not found with ID " + ticketDTO.getCustomerId()));
 
         Activity activity = arepo.findById(ticketDTO.getActivityId())
                 .orElseThrow(() -> new ActivityException("Activity not found with ID " + ticketDTO.getActivityId()));

@@ -45,6 +45,7 @@ public class TicketController {
 	
 	@GetMapping("/tickets")
 	public ResponseEntity<List<TicketDTO>> getAllTicketHandler(@RequestParam String sessionId){
+		
 		List<TicketDTO> tlist=tservice.getAllTickets( sessionId);
 		
 		return new ResponseEntity<>(tlist,HttpStatus.OK);
@@ -60,8 +61,10 @@ public class TicketController {
 	
 	@GetMapping("/gettickets/{TicketId}")
 	public ResponseEntity<TicketDTO> getTicketByIdHandler(@RequestParam String sessionId,@PathVariable Integer TicketId)throws TicketException{
-		TicketDTO tdto=tservice.getTicketsDetailsById(sessionId,TicketId);
 		
+		
+		TicketDTO tdto=tservice.getTicketsDetailsById(sessionId,TicketId);
+		System.out.println(tdto);
 		return new ResponseEntity<>(tdto,HttpStatus.OK);
 		
 	}
