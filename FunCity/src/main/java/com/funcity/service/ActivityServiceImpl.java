@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.funcity.dto.ActivityDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.model.Activity;
+import com.funcity.model.Ticket;
 import com.funcity.model.UserSession;
 import com.funcity.repository.ActivityRepository;
 import com.funcity.repository.UserSessionRepository;

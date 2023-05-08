@@ -1,6 +1,7 @@
 package com.funcity.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.funcity.dto.ActivityDTO;
+import com.funcity.dto.AdminDTO;
 import com.funcity.exception.ActivityException;
 import com.funcity.exception.AdminException;
 import com.funcity.exception.CustomerException;
@@ -44,11 +46,7 @@ public class AdminServiceImpl implements AdminService {
 	private CustomerRepository customerRepo;
 	
 	@Override
-	public Admin insertAdmin(String sessionId,Admin admin) throws AdminException {
-		UserSession us = userSessionRepo.findBySessionId(sessionId);
-		if(us==null) {
-		throw new AdminException("Admin with session id not found");	
-		}
+	public Admin insertAdmin(Admin admin) throws AdminException {
 		
 		Admin savedAdmin = adminRepo.save(admin);
 		
@@ -71,17 +69,22 @@ public class AdminServiceImpl implements AdminService {
 		
 
 	@Override
-	public Admin updateAdmin(String sessionId,Admin admin) throws AdminException {
+	public Admin updateAdmin(String sessionId,Integer adminId,AdminDTO adminDto) throws AdminException {
 		UserSession us = userSessionRepo.findBySessionId(sessionId);
 		if(us==null) {
 		throw new AdminException("Admin with session id not found");	
 		}
-		Optional<Admin> opt = adminRepo.findById(admin.getAdmin_id());
+		Optional<Admin> opt = adminRepo.findById(adminId);
 		if(opt.isPresent()) {
-			Admin a1 = adminRepo.save(admin);
+			Admin a1 = opt.get();
+			a1.setEmail(adminDto.getEmail());
+			a1.setMobileNumber(adminDto.getMobileNumber());
+			a1.setUsername(adminDto.getUsername());
+			a1.setPassword(adminDto.getPassword());
+			adminRepo.save(a1);
 			return a1;
 		}
-		throw new AdminException("Admin not found with id " + admin.getAdmin_id());
+		throw new AdminException("Admin not found with id " + adminId);
 	}
 
 	@Override
@@ -112,7 +115,7 @@ public class AdminServiceImpl implements AdminService {
 		
 			Customer c = opt.get();
 			List<Ticket> tickets = ticketRepo.findByCustomer(c);
-			Set<Activity> activities=new HashSet<>();
+			List<Activity> activities=new ArrayList();
 			if(tickets.size() == 0) {
 				throw new ActivityException("customer has not taken any activity yet");
 			}else {
@@ -121,9 +124,9 @@ public class AdminServiceImpl implements AdminService {
 					activities.add(t.getActivity());
 				}
 			}
-			List<Activity> list = new ArrayList<>(activities);
 			
-			return list;
+			
+			return activities;
 	}
 
 	@Override
@@ -133,41 +136,43 @@ public class AdminServiceImpl implements AdminService {
 		
 		if(activityList.isEmpty()) throw new ActivityException("No Record Found");
 		
-		else return activityList;
+		return activityList;
 	}
 
 	@Override
-	public List<ActivityDTO> getAllActivitiesBetweenDatesByCutomerId(String sessionId, Integer customer_id,
-			LocalDate startDate, LocalDate endDate) throws AdminException, ActivityException, CustomerException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Activity> getAllActivitiesBetweenDatesByCutomerId(String sessionId, Integer customer_id,
+			LocalDateTime lowerBoundDate, LocalDateTime upperBoundDate)
+			throws AdminException, ActivityException, CustomerException {
+		UserSession us = userSessionRepo.findBySessionId(sessionId);
+		if(us==null) 
+		throw new AdminException("Admin with session id not found");	
+		
+		Optional<Customer> opt = customerRepo.findById(customer_id);
+		if(opt.isPresent()==false) {
+			throw new CustomerException("customer not found with id " + customer_id);
+		}
+		
+			Customer c = opt.get();
+		List<Ticket> tickets = ticketRepo.findByCustomerIdAndDateRange(customer_id, lowerBoundDate, upperBoundDate);
+		Set<Activity> activities=new HashSet<>();
+		if(tickets.size() == 0) {
+			throw new ActivityException("customer has not taken any activity yet");
+		}else {
+			
+			for(Ticket t:tickets) {
+				activities.add(t.getActivity());
+			}
+		}
+		List<Activity> list = new ArrayList<>(activities);
+		
+		return list;
+	
 	}
 
-//	@Override
-//	public List<Activity> getAllActivitiesBetweenDatesByCutomerId(String sessionId,Integer customer_id,LocalDate strtDate,LocalDate) throws ActivityException, CustomerException{
-//		UserSession us = userSessionRepo.findBySessionId(sessionId);
-//		if(us==null) {
-//		throw new AdminException("Admin with session id not found");	
-//		}
-//		Optional<Customer> opt = customerRepo.findById(customer_id);
-//		if(opt.isPresent()==false) {
-//			throw new CustomerException("customer not found with id " + customer_id);
-//		}
-//		
-//			Customer c = opt.get();
-//			List<Ticket> tickets = ticketRepo.findByCustomer(c);
-//			Set<Activity> activities=new HashSet<>();
-//			if(tickets.size() == 0) {
-//				throw new ActivityException("customer has not taken any activity yet");
-//			}else {
-//				
-//				for(Ticket t:tickets) {
-//					activities.add(t.getActivity());
-//				}
-//			}
-//			List<Activity> list = new ArrayList<>(activities);
-//			
-//			return list;
-//	}
+	
 	
 }
+
+
+	
+

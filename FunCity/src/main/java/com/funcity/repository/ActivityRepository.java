@@ -14,7 +14,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer>{
 	
 	public List<Activity> findByCharges(Double charges);
 	
-	@Query("select new com.funcity.dto.ActivityDTO(activityId, activityName,description,imageUrl1,imageUrl2,charges,thrillLevel) from Activity" )
+	@Query("select new com.funcity.dto.ActivityDTO(activityId,activityName,description,imageUrl1,imageUrl2,charges,thrillLevel) from Activity" )
 	public List<ActivityDTO> getActivityDetails();
 	
 	public Integer countByCharges(Double Charges );

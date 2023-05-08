@@ -31,10 +31,11 @@ public class LoginUserServiceImpl implements LoginUserService{
 	private UserSessionRepository userSessionRepository;
 	
 	@Override
-	public String logInUserAccount(LoginUserDTO loginUser) throws CustomerException {
+	public UserSession logInUserAccount(LoginUserDTO loginUser) throws CustomerException {
 
 		String role = loginUser.getRole();
 		String mobileNumber = loginUser.getMobileNumber();
+		
 		
 		if(role.equalsIgnoreCase("customer")) {
 			Customer c = customerRepository.findByMobileNumber(mobileNumber);
@@ -54,13 +55,14 @@ public class LoginUserServiceImpl implements LoginUserService{
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);
-			us.setPhoneNumber(mobileNumber);
+			us.setMobileNumber(mobileNumber);
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
-			userSessionRepository.save(us);
-			return sessionId;
+			 return userSessionRepository.save(us);
+			
+			
 		}else {
-			Admin a = adminRepository.findByphonenumber(mobileNumber);
+			Admin a = adminRepository.findByMobileNumber(mobileNumber);
 			if(a==null) {
 				throw new AdminException("admin not found with mobileNumber " + mobileNumber);
 			}
@@ -77,13 +79,13 @@ public class LoginUserServiceImpl implements LoginUserService{
 			
 			UserSession us = new UserSession();
 			us.setSessionId(sessionId);
-			us.setPhoneNumber(mobileNumber);
+			us.setMobileNumber(mobileNumber);
 			us.setLogintime(LocalDateTime.now());
 			us.setRole(role);
-			userSessionRepository.save(us);
-			return sessionId;
+			return  userSessionRepository.save(us);
+			
 		}
-		
+	
 	}
 
 	@Override

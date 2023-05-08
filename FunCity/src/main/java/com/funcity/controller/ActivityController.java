@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,14 +18,17 @@ import com.funcity.dto.ActivityDTO;
 import com.funcity.model.Activity;
 import com.funcity.service.ActivityService;
 
+import jakarta.validation.Valid;
+
 @RestController
+@CrossOrigin("*")
 public class ActivityController {
 	
 	@Autowired
 	private ActivityService activityService;
 	
 	@PostMapping("/activities/{sessionId}")
-	public ResponseEntity<Activity> insertActivityHandler(@PathVariable String sessionId,@RequestBody Activity activity){
+	public ResponseEntity<Activity> insertActivityHandler(@PathVariable String sessionId,@Valid @RequestBody Activity activity){
 		
 		Activity savedActivity=activityService.insertActivity(sessionId, activity);
 		
@@ -32,7 +36,7 @@ public class ActivityController {
 	}
 	
 	@PutMapping("/activities/{sessionId}")
-	public ResponseEntity<Activity> updateActivityHandler(@PathVariable String sessionId,@RequestBody Activity activity){
+	public ResponseEntity<Activity> updateActivityHandler(@PathVariable String sessionId,@Valid @RequestBody Activity activity){
 		
 		Activity updatedActivity = activityService.updateActivity(sessionId,activity);
 				

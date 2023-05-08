@@ -85,7 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Customer updatePassword(Integer customerId,String oldpassword, String password) throws CustomerException {
+	public Customer changePassword(Integer customerId,String oldpassword, String password) throws CustomerException {
 		Customer existingcustomer = customerRepo.findById(customerId)
 				.orElseThrow(() -> new CustomerException("No customer present with this customerId : " + customerId));
 
