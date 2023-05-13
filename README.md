@@ -17,6 +17,8 @@ The amusement park web application, built with Java Spring Boot, HTML, CSS, and 
 ### Backend services
 - JAVA
 - Spring Boot
+- Maven
+- Hibernate
 - MySQL Database
 
 ## Users of the project
